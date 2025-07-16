@@ -1,0 +1,49 @@
+{
+  "name": "Lami Development Environment",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "postCreateCommand": ".devcontainer/setup.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ziglang.vscode-zig",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.hexeditor",
+        "ms-vscode.cmake-tools",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "zig.path": "/usr/local/bin/zig",
+        "zig.zls.path": "/usr/local/bin/zls",
+        "files.associations": {
+          "*.zig": "zig"
+        },
+        "files.exclude": {
+          "**/.zig-cache": true,
+          "**/zig-out": true
+        }
+      }
+    }
+  },
+
+  "forwardPorts": [],
+  
+  "remoteUser": "node",
+  
+  "mounts": [
+    "source=${localWorkspaceFolder}/.zig-cache,target=${containerWorkspaceFolder}/.zig-cache,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/zig-out,target=${containerWorkspaceFolder}/zig-out,type=bind,consistency=cached"
+  ],
+
+  "workspaceFolder": "/workspaces/lami"
+}
