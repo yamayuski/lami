@@ -1,0 +1,42 @@
+{
+  "name": "lami Development Environment",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ziglang.vscode-zig",
+        "ms-vscode.vscode-json"
+      ],
+      "settings": {
+        "zig.path": "/workspace/zig-bootstrap/out/bin/zig",
+        "zig.zls.path": "/workspace/zig-bootstrap/out/bin/zls"
+      }
+    }
+  },
+
+  "containerEnv": {
+    "PATH": "/workspace/zig-bootstrap/out/bin:${PATH}"
+  },
+
+  "postCreateCommand": "/workspace/.devcontainer/setup.sh",
+  
+  "remoteUser": "vscode",
+  
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace",
+
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer/cache,target=/home/vscode/.cache,type=bind,consistency=cached"
+  ]
+}

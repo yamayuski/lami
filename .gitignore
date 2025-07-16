@@ -1,3 +1,9 @@
 .zig-cache/
 zig-out/
 *.o
+
+# DevContainer cache
+.devcontainer/cache/
+
+# zig-bootstrap build artifacts
+zig-bootstrap/
