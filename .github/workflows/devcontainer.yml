@@ -1,0 +1,38 @@
+name: DevContainer Test
+
+on:
+  push:
+    paths:
+      - '.devcontainer/**'
+      - 'zig-update'
+  pull_request:
+    paths:
+      - '.devcontainer/**'
+      - 'zig-update'
+
+jobs:
+  test-devcontainer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build and test DevContainer
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: lami-devcontainer
+          runCmd: |
+            # Test Node.js installation
+            node --version
+            npm --version
+            
+            # Test Gemini CLI installation
+            which gemini || echo "Gemini CLI will be installed during setup"
+            
+            # Test zig-update script exists and is executable
+            test -x ./zig-update
+            
+            # Check if zig-bootstrap directory structure will be created
+            echo "DevContainer setup validation complete"

@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+echo "Updating Zig compiler from zig-bootstrap master..."
+
+# Check if zig-bootstrap directory exists
+if [ ! -d "zig-bootstrap" ]; then
+    echo "Error: zig-bootstrap directory not found. Please run the DevContainer setup first."
+    exit 1
+fi
+
+cd zig-bootstrap
+
+# Fetch latest changes and switch to master
+echo "Fetching latest changes from zig-bootstrap..."
+git fetch origin
+git checkout master
+git pull origin master
+
+# Update submodules
+echo "Updating submodules..."
+git submodule update --init --recursive
+
+# Build Zig
+echo "Building Zig compiler (this may take a while)..."
+./build -j$(nproc)
+
+echo "Zig compiler update complete!"
+if [ -f "out/bin/zig" ]; then
+    echo "New version: $(./out/bin/zig version)"
+else
+    echo "Warning: Zig binary not found in expected location. Build may have failed."
+fi
